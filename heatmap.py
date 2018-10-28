@@ -99,6 +99,7 @@ for i in range(len(pixel_coordinates)):
     color = GetColor(pixel_frequency[i], pixel_frequency)
     img.put(color, pixel_coordinates[i])
 
+
 filename = 'heat4.png'
 img.write(filename, format='png')
 

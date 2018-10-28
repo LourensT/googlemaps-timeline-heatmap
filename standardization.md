@@ -5,8 +5,8 @@ approach of rewriting heatmap.py script to more flexible solution that can take 
 
 ##Approach
 1. show distribution for longitude and latitude, to show fitting interval 
-2. inside interquartile (IQR = Q3 - Q1) should do the job
-3. filter out any coordinates outside determined interval locationdata.json 
+2. inside interquartile (IQR = Q3 - Q1) should do the job                       DONE
+3. filter out any coordinates outside determined interval locationdata.json     DONE
 4. determine accuracy raster (100x100, 1000x1000 etc)
 5. calculate value per rasterfield
 6. determine colors of the rasterfields based on value

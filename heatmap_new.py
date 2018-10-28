@@ -3,9 +3,7 @@
 
 from typing import List
 import json
-import matplotlib.pyplot as plt
-from tkinter import Tk, Canvas, PhotoImage, mainloop
-from scipy import stats
+from tkinter import Tk, PhotoImage
 import numpy as np
 import os
 
@@ -47,16 +45,43 @@ def FilterDataInRanges(data, ranges):
 
     return filtered_data
 
+def FieldValue(data, ranges, raster=(1000,1000)):
+    pixel_frequency = {}
 
-def GetColor(value, source):
-    percentiles = np.percentile(source, [25, 50, 75])
-    if percentiles[0] == percentiles[1]:
-        new_source = []
-        for item in source:
-            if item != int(percentiles[0]):
-                new_source.append(item)
-        percentiles = np.percentile(new_source, [25, 50, 75])
+    for item in data:
+        y = int(((item[0]-ranges[0]) / (ranges[1]-ranges[0])) * raster[1] )
+        x = int(((item[1]-ranges[2]) / (ranges[3]-ranges[2])) * raster[0] )
+        if (x,y) not in pixel_frequency:
+            pixel_frequency[(x,y)] = 1
+        else:
+            pixel_frequency[(x,y)] += 1
+    
+    return pixel_frequency
 
+def MapPicture(pixel_frequency, raster=(1000,1000)):
+    root = Tk()
+    img = PhotoImage(width=raster[0], height=raster[1])
+
+    for i in range(1, raster[0]):
+        x = i
+        for j in range(1, raster[0]):
+            y = j
+            img.put('#000000', (x,y))
+
+    pixel_values = []
+    for item in pixel_frequency.values():
+        pixel_values.append(item)
+    freqstats = np.percentile(pixel_values, [25, 50, 75])
+
+    for coordinate in pixel_frequency:
+        color = GetColor(pixel_frequency[coordinate], freqstats)
+        img.put(color, coordinate)
+
+    filename = 'heat.png'
+    img.write(filename, format='png')
+
+
+def GetColor(value, percentiles):
     if float(value) < percentiles[0]:
         return '#ffffff'
     elif float(value) < percentiles[1]:
@@ -66,8 +91,13 @@ def GetColor(value, source):
     else:
         return '#F3FF00'
 
-points = LoadLocationData('locationdata.json')
-ranges = FindRanges(points)
-new_data = FilterDataInRanges(points, ranges)
-print(len(points))
-print(len(new_data))
+def Main():
+    points = LoadLocationData('locationdata.json')
+    ranges = FindRanges(points)
+    data = FilterDataInRanges(points, ranges)
+    fieldvalues = FieldValue(data, ranges)
+    MapPicture(fieldvalues)
+
+
+if __name__ == '__main__':
+    Main()
