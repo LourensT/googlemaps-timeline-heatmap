@@ -15,11 +15,11 @@ def MapPicture(pixel_frequency, raster=(1000,1000)):
     pixel_values = []
     for item in pixel_frequency.values():
         pixel_values.append(item)
-    freqstats = np.percentile(pixel_values, [25, 50, 75])
+    freqstats = np.percentile(pixel_values, [0, 50, 100])
 
     for coordinate in pixel_frequency:
         color = GetColor(pixel_frequency[coordinate], freqstats)
         img.put(color, coordinate)
 
-    filename = 'heat.png'
+    filename = 'heat2.png'
     img.write(filename, format='png')

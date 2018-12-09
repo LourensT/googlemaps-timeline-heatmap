@@ -10,7 +10,8 @@ from colors_to_raster import MapPicture
 
 def LoadLocationData(fp : str) -> List:
     with open(fp, 'r', encoding=None) as input:
-        d = json.load(input)
+        new_input = input.read().replace("\'", "\"")
+        d = json.loads(new_input)
     coordinates = []
     for item in d['locations']:
         point = ((item['latitudeE7']/1e7), (item['longitudeE7']/1e7))
