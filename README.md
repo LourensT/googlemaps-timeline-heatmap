@@ -1,7 +1,6 @@
 # googlemaps-timeline-heatmap
-Create a heatmap from your google maps timeline location data, or any geographical data, as long as it's in the correct format.
-
-**Currently not perfect.**
+Create a heatmap from your google maps timeline location data, or any geographical data, as long as it's in the correct format. 
+[![Google map heatline](https://img.youtube.com/vi/iwANnV8Z6sk/0.jpg)](https://www.youtube.com/watch?v=iwANnV8Z6sk)
 
 ## Google Maps TimeLine
 Google Maps has a feature that tracks the location of your mobile device over time. They call this feature 'TimeLine'.
